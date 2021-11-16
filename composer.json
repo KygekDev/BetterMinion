@@ -1,0 +1,21 @@
+{
+    "name": "mcbeany/better-minion",
+    "description": "A plugin that adds minions to your PocketMine-MP server",
+    "type": "project",
+    "require": {
+        "pocketmine/pocketmine-mp": "^4.0.0-BETA12",
+        "php": "^8.0"
+    },
+    "license": "Apache",
+    "autoload": {
+        "psr-4": {
+            "Mcbeany\\BetterMinion\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Khang Nguyen",
+            "email": "mcbeany7@gmail.com"
+        }
+    ]
+}
