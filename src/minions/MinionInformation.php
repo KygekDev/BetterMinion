@@ -5,26 +5,28 @@ declare(strict_types=1);
 namespace Mcbeany\BetterMinion\minions;
 
 use pocketmine\nbt\tag\CompoundTag;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 final class MinionInformation
 {
-    private string $owner;
+    private UuidInterface $owner;
     private MinionType $type;
     private int $level;
     private MinionUpgrade $upgrade;
-    public static function new(string $owner,
+    public static function new(UuidInterface $owner,
                                MinionType $type,
                                int $level,
                                MinionUpgrade $upgrade): self
     {
-        $information = new MinionInformation();
+        $information = new self();
         $information->owner = $owner;
         $information->type = $type;
         $information->level = $level;
         $information->upgrade = $upgrade;
         return $information;
     }
-    public function getOwner(): string
+    public function getOwner(): UuidInterface
     {
         return $this->owner;
     }
@@ -47,7 +49,7 @@ final class MinionInformation
     public function nbtSerialize(): CompoundTag
     {
         return CompoundTag::create()
-            ->setString("owner", $this->owner)
+            ->setString("owner", $this->owner->toString())
             ->setString("type", $this->type->name())
             ->setInt("level", $this->level)
             ->setTag("upgrade", $this->upgrade->nbtSerialize());
@@ -55,7 +57,7 @@ final class MinionInformation
     public static function nbtDeserialize(CompoundTag $nbt): self
     {
         return MinionInformation::new(
-            $nbt->getString("owner"),
+            Uuid::fromString($nbt->getString("owner")),
             MinionType::fromString($nbt->getString("type")),
             $nbt->getInt("level"),
             MinionUpgrade::nbtDeserialize($nbt->getTag("upgrade"))

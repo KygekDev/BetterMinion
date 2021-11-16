@@ -37,7 +37,7 @@ abstract class BaseMinion extends Human
         }, $this->getMinionInventory()->getContents())));
         return $nbt;
     }
-    protected function getMinionInformation(): MinionInformation
+    public function getMinionInformation(): MinionInformation
     {
         return $this->minionInfo;
     }
