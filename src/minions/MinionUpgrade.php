@@ -12,10 +12,7 @@ final class MinionUpgrade
                  $autoSell,
                  $compact,
                  $expand;
-    public static function new(bool $autoSmelt = false,
-                               bool $autoSell = false,
-                               bool $compact = false,
-                               bool $expand = false): self
+    public static function new(bool $autoSmelt = false, bool $autoSell = false, bool $compact = false, bool $expand = false): self
     {
         $upgrade = new self();
         $upgrade->autoSmelt = $autoSmelt;

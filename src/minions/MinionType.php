@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mcbeany\BetterMinion\minions;
 
+use Mcbeany\BetterMinion\entities\types\MiningMinion;
 use pocketmine\utils\EnumTrait;
 
 /**
@@ -21,19 +22,35 @@ use pocketmine\utils\EnumTrait;
 
 final class MinionType
 {
-    use EnumTrait;
+    use EnumTrait {
+        __construct as private __enumConstruct;
+    }
+    private string $className;
+    private function __construct(string $enumName, string $className)
+    {
+        $this->__enumConstruct($enumName);
+        $this->className = $className;
+    }
+    public function getClassName(): string
+    {
+        return $this->className;
+    }
     protected static function setup(): void
     {
         self::registerAll(
-            new MinionType("mining"),
-            new MinionType("farming"),
+            new MinionType("mining", MiningMinion::class),
+            /*new MinionType("farming"),
             new MinionType("lumberjack"),
             new MinionType("fishing"),
-            new MinionType("combat")
+            new MinionType("combat")*/
         );
     }
-    public static function fromString(string $str): self
+    public static function fromString(string $name): MinionType
     {
-        return new self($str);
+        self::checkInit();
+        if (!isset(self::$members[$name])) {
+            throw new \InvalidArgumentException("Invalid minion type name: $name");
+        }
+        return self::$members[$name];
     }
 }
